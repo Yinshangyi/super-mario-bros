@@ -8,5 +8,5 @@ It has been developed in Java with the LibGDX library.
 <img src="img/output/app_global_archi.png" />
 
 ### Preview
-<img src="img/output/screenshot1.png" />
+<img src="img/output/screenshot1.png" width=60% />
 
