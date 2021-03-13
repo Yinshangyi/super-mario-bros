@@ -16,6 +16,7 @@ import com.games.mario.MarioBros;
 import com.games.mario.scenes.Hud;
 import com.games.mario.sprites.Mario;
 import com.games.mario.tools.B2WorldCreator;
+import com.games.mario.tools.GameMaths;
 
 public class PlayScreen implements Screen {
 
@@ -35,14 +36,14 @@ public class PlayScreen implements Screen {
     public PlayScreen(MarioBros game){
         this.game = game;
         gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(MarioBros.V_WIDTH/MarioBros.PPM,
-                MarioBros.V_HEIGHT/MarioBros.PPM, gameCam);
+        gamePort = new FitViewport(GameMaths.scaledValue(MarioBros.V_WIDTH),
+                GameMaths.scaledValue(MarioBros.V_HEIGHT), gameCam);
 
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1/MarioBros.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map, GameMaths.scaledValue(1));
 
         float gameCamPosX = gamePort.getWorldWidth()/2;
         float gameCamPosY = gamePort.getWorldHeight()/2;
