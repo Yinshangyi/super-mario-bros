@@ -1,0 +1,83 @@
+@startuml
+
+left to right direction
+
+class DesktopLauncher {
+    +main()
+}
+
+interface ApplicationListener {
+    +create()
+}
+
+class Game {
+    #screen: Screen
+    +dispose()
+    +getScreen()
+    +pause()
+    +render()
+    +resize()
+    +resume()
+    +setScreen()
+}
+
+class MarioBros {
+    +V_WIDTH: int
+    +V_HEIGHT: int
+    +batch: SpriteBatch
+    +create()
+    +render()
+    +dispose()
+}
+
+interface Screen {
+    +dispose()
+    +hide()
+    +pause()
+    +render()
+    +resize()
+    +resume()
+    +show()
+}
+
+class PlayScreen {
+    -game: MarioBros
+    -gameCam: OrthographicCamera
+    -gameport: Viewport
+    -hud: Hud
+    -mapLoader: TxmMapLoader
+    -map: TitledMap
+    -renderer: OrthogonalTiledMapRenderer  
+    +show()
+    +headleInput(dt: float)
+    +update(dt: float)
+    +render(dt: float)
+    +resize(width: int, height: int)
+    +pause()
+    +resume()
+    +hide()
+    +dispose()
+}
+
+class Hud {
+    +stage: Stage
+    -viewport: ViewPort
+    -worldTimer: Integer
+    -timeCount: float
+    -score: Integer
+    +countdownLabel: Label
+    +scoreLabel: Label
+    +timeLabel: Label
+    +levelLabel: Label
+    +worldLabel: Label
+    +marioLabel: Label
+}
+
+DesktopLauncher o-- MarioBros
+
+class Game implements ApplicationListener
+class Game extends MarioBros
+class PlayScreen implements Screen 
+
+PlayScreen o-- Hud
+@enduml

@@ -19,7 +19,7 @@ public class PlayScreen implements Screen {
     private Viewport gamePort;
     private Hud hud;
 
-    private TmxMapLoader maploader;
+    private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
@@ -30,10 +30,10 @@ public class PlayScreen implements Screen {
 
         hud = new Hud(game.batch);
 
-        maploader = new TmxMapLoader();
-        map = maploader.load("level1.tmx");
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("level1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
-        gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
+        gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
 
     }
 
