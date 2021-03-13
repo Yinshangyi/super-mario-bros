@@ -5,12 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.games.mario.MarioBros;
 import com.games.mario.scenes.Hud;
 import com.games.mario.sprites.Mario;
+import com.games.mario.tools.B2WorldCreator;
 
 public class PlayScreen implements Screen {
 
@@ -55,62 +53,7 @@ public class PlayScreen implements Screen {
 
         b2br = new Box2DDebugRenderer();
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-
-        /* Create ground bodies/fixture */
-        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            float bdefPX = (rect.getX() + rect.getWidth()/2)/MarioBros.PPM;
-            float bdefY = (rect.getY() + rect.getHeight()/2)/MarioBros.PPM;
-            bdef.position.set(bdefPX, bdefY);
-            body = world.createBody(bdef);
-            shape.setAsBox((rect.getWidth()/2)/MarioBros.PPM, (rect.getHeight()/2)/MarioBros.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        /* Create pipe bodies/fixtures */
-        for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            float bdefPX = (rect.getX() + rect.getWidth()/2)/MarioBros.PPM;
-            float bdefY = (rect.getY() + rect.getHeight()/2)/MarioBros.PPM;
-            bdef.position.set(bdefPX, bdefY);
-            body = world.createBody(bdef);
-            shape.setAsBox((rect.getWidth()/2)/MarioBros.PPM, (rect.getHeight()/2)/MarioBros.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        /* Create brick bodies/fixtures */
-        for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            float bdefPX = (rect.getX() + rect.getWidth()/2)/MarioBros.PPM;
-            float bdefY = (rect.getY() + rect.getHeight()/2)/MarioBros.PPM;
-            bdef.position.set(bdefPX, bdefY);
-            body = world.createBody(bdef);
-            shape.setAsBox((rect.getWidth()/2)/MarioBros.PPM, (rect.getHeight()/2)/MarioBros.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        /* Create coin bodies/fixtures */
-        for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            float bdefPX = (rect.getX() + rect.getWidth()/2)/MarioBros.PPM;
-            float bdefY = (rect.getY() + rect.getHeight()/2)/MarioBros.PPM;
-            bdef.position.set(bdefPX, bdefY);
-            body = world.createBody(bdef);
-            shape.setAsBox((rect.getWidth()/2)/MarioBros.PPM, (rect.getHeight()/2)/MarioBros.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
+        new B2WorldCreator(world, map);
     }
 
     @Override
@@ -191,6 +134,10 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        map.dispose();
+        renderer.dispose();
+        world.dispose();
+        b2br.dispose();
+        hud.dispose();
     }
 }
