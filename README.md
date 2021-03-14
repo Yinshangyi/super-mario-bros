@@ -9,4 +9,7 @@ It has been developed in Java with the LibGDX library.
 
 ### Preview
 Screenshots of the game
-<img src="img/output/screenshot1.png" width=70% />
+<div>
+  <img src="img/output/screenshot1.png" width=70% />
+</div>
+
