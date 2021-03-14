@@ -8,5 +8,9 @@ It has been developed in Java with the LibGDX library.
 <img src="img/output/app_global_archi.png" />
 
 ### Preview
-<img src="img/output/screenshot1.png" width=60% />
+Screenshots of the game
+<div style="display:flex; justify-content:space-between">
+    <img src="img/output/screenshot1.png" width=60% />
+    <img style="margin-left:3%" src="img/output/screenshot2.png" width=60% />
+</div>
 
