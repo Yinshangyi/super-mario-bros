@@ -1,6 +1,5 @@
 package com.games.mario.tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.games.mario.sprites.InteractiveTileObject;
 

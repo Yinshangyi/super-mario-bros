@@ -41,14 +41,14 @@ public class PlayScreen implements Screen {
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
         gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(GameMaths.scaledValue(MarioBros.V_WIDTH),
-                GameMaths.scaledValue(MarioBros.V_HEIGHT), gameCam);
+        gamePort = new FitViewport(GameMaths.scaleValue(MarioBros.V_WIDTH),
+                GameMaths.scaleValue(MarioBros.V_HEIGHT), gameCam);
 
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, GameMaths.scaledValue(1));
+        renderer = new OrthogonalTiledMapRenderer(map, GameMaths.scaleValue(1));
 
         float gameCamPosX = gamePort.getWorldWidth()/2;
         float gameCamPosY = gamePort.getWorldHeight()/2;

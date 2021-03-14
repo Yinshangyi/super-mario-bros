@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import com.games.mario.MarioBros;
 import com.games.mario.screens.PlayScreen;
 import com.games.mario.tools.GameMaths;
 
@@ -45,7 +46,7 @@ public class Mario extends Sprite {
         marioStand = new TextureRegion(getTexture(), 1, 11, SPRITE_WIDTH, SPRITE_HEIGHT);
         defineMario();
 
-        setBounds(0, 0, GameMaths.scaledValue(SPRITE_WIDTH), GameMaths.scaledValue(SPRITE_HEIGHT));
+        setBounds(0, 0, GameMaths.scaleValue(SPRITE_WIDTH), GameMaths.scaleValue(SPRITE_HEIGHT));
         setRegion(marioStand);
     }
 
@@ -97,19 +98,21 @@ public class Mario extends Sprite {
 
     public void defineMario() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(GameMaths.scaledValue(32), GameMaths.scaledValue(32));
+        bdef.position.set(GameMaths.scaleValue(32), GameMaths.scaleValue(32));
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(GameMaths.scaledValue(6));
+        shape.setRadius(GameMaths.scaleValue(6));
+        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        fdef.filter.maskBits = MarioBros.DEFAULT_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(GameMaths.scaledValue(-2), GameMaths.scaledValue(7)),
-                new Vector2(GameMaths.scaledValue(2), GameMaths.scaledValue(7)));
+        head.set(new Vector2(GameMaths.scaleValue(-2), GameMaths.scaleValue(7)),
+                new Vector2(GameMaths.scaleValue(2), GameMaths.scaleValue(7)));
         fdef.shape = head;
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData("head");
