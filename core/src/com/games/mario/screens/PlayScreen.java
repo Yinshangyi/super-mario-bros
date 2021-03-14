@@ -18,6 +18,7 @@ import com.games.mario.scenes.Hud;
 import com.games.mario.sprites.Mario;
 import com.games.mario.tools.B2WorldCreator;
 import com.games.mario.tools.GameMaths;
+import com.games.mario.tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
 
@@ -55,6 +56,7 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0, -10), true);
         player = new Mario(world, this);
+        world.setContactListener(new WorldContactListener());
 
         b2br = new Box2DDebugRenderer();
 

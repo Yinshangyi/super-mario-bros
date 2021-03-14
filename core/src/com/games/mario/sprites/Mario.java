@@ -3,6 +3,7 @@ package com.games.mario.sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.games.mario.screens.PlayScreen;
@@ -105,5 +106,12 @@ public class Mario extends Sprite {
         shape.setRadius(GameMaths.scaledValue(6));
         fdef.shape = shape;
         b2body.createFixture(fdef);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(GameMaths.scaledValue(-2), GameMaths.scaledValue(7)),
+                new Vector2(GameMaths.scaledValue(2), GameMaths.scaledValue(7)));
+        fdef.shape = head;
+        fdef.isSensor = true;
+        b2body.createFixture(fdef).setUserData("head");
     }
 }
