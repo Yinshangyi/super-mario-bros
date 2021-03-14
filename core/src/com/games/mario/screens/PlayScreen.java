@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -21,6 +22,8 @@ import com.games.mario.tools.GameMaths;
 public class PlayScreen implements Screen {
 
     private MarioBros game;
+    private TextureAtlas atlas;
+
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
@@ -34,6 +37,7 @@ public class PlayScreen implements Screen {
     private Mario player;
 
     public PlayScreen(MarioBros game){
+        atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(GameMaths.scaledValue(MarioBros.V_WIDTH),
@@ -50,11 +54,15 @@ public class PlayScreen implements Screen {
         gameCam.position.set(gameCamPosX, gameCamPosY, 0);
 
         world = new World(new Vector2(0, -10), true);
-        player = new Mario(world);
+        player = new Mario(world, this);
 
         b2br = new Box2DDebugRenderer();
 
         new B2WorldCreator(world, map);
+    }
+
+    public TextureAtlas getAtlas() {
+        return atlas;
     }
 
     @Override
@@ -76,7 +84,6 @@ public class PlayScreen implements Screen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) &&
                 player.b2body.getLinearVelocity().x >= -2) {
-            System.out.println("<-- was pushed");
             player.b2body.applyLinearImpulse(
                     new Vector2(-0.1f, 0),
                     player.b2body.getWorldCenter(), true);
@@ -88,6 +95,7 @@ public class PlayScreen implements Screen {
     public void update(float dt){
         handleInput(dt);
         world.step(1/60f,6, 2);
+        player.update(dt);
         gameCam.position.x = player.b2body.getPosition().x;
         gameCam.update();
         renderer.setView(gameCam);
@@ -107,6 +115,12 @@ public class PlayScreen implements Screen {
 
         /* Render our Box2DDebugLines */
         b2br.render(world, gameCam.combined);
+
+        game.batch.setProjectionMatrix(gameCam.combined);
+        game.batch.begin();
+        player.draw(game.batch);
+        game.batch.end();
+
 
         /* Set our batch to now draw what the Hud camera sees */
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
